@@ -1,0 +1,1 @@
+my_table="prod-iac-g2-cgb-2026"

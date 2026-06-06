@@ -1,0 +1,33 @@
+name: "DEV DEPLOY"
+
+on:
+  push:
+    branches:
+      - dev
+
+permissions:
+  id-token: write
+  contents: read
+
+# pasos que se deben ejecutar
+jobs:
+  terraform:
+
+    # usamos el archivo creado en el paso anterior
+    uses: ./.github/workflows/terraform.yml
+
+    with:
+
+      # pasamos todas las variables que configuramos en el archivo terraform.yml
+      environment: dev
+
+      # remplazar por el ARN del rol que se creo en la actividad 1
+      aws-assume-role-arn: "arn:aws:iam::573256070386:role/C_Grupo2"
+
+      aws-region: "us-east-1"
+
+      # bucket S3 creado en actividad 2
+      aws-statefile-s3-bucket: "cgrupo2"
+
+      # tabla dynamodb creada en actividad 2
+      aws-lock-dynamodb-table: "cagrupo2"
