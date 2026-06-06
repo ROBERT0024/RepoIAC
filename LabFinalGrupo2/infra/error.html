@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Error 404 - Grupo 2</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', 'Poppins', system-ui, -apple-system, 'Inter', sans-serif;
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Efecto de partículas sutiles */
+    body::before {
+      content: '';
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      top: -50%;
+      left: -50%;
+      background: radial-gradient(circle at 30% 40%, rgba(99, 102, 241, 0.08) 0%, rgba(0,0,0,0) 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border-radius: 2.5rem;
+      padding: 2.5rem 2rem;
+      max-width: 550px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      z-index: 2;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 35px 50px -18px rgba(0, 0, 0, 0.5);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    /* Animación del número 404 */
+    .error-code {
+      font-size: 7rem;
+      font-weight: 800;
+      background: linear-gradient(120deg, #c084fc, #60a5fa, #f472b6);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      text-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      letter-spacing: -0.02em;
+      line-height: 1;
+      margin-bottom: 1rem;
+      animation: float 4s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
+    }
+
+    /* Grupo 2 destacado */
+    .grupo-badge {
+      display: inline-block;
+      background: rgba(96, 165, 250, 0.2);
+      backdrop-filter: blur(4px);
+      padding: 0.3rem 1rem;
+      border-radius: 60px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      letter-spacing: 0.5px;
+      color: #a5f3fc;
+      border: 1px solid rgba(96, 165, 250, 0.5);
+      margin-bottom: 1.5rem;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #f1f5f9, #cbd5e1);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      margin-bottom: 1rem;
+    }
+
+    .message {
+      font-size: 1.1rem;
+      color: #cbd5e6;
+      margin-bottom: 2rem;
+      line-height: 1.5;
+      font-weight: 500;
+      padding: 0 0.5rem;
+    }
+
+    /* Botón elegante */
+    .btn-home {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: linear-gradient(95deg, #3b82f6, #8b5cf6);
+      padding: 0.85rem 2rem;
+      border-radius: 60px;
+      text-decoration: none;
+      font-weight: 600;
+      color: white;
+      font-size: 1rem;
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+      transition: all 0.25s ease;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-home:hover {
+      transform: scale(1.02);
+      background: linear-gradient(95deg, #2563eb, #7c3aed);
+      box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+      gap: 0.9rem;
+    }
+
+    .btn-home:active {
+      transform: scale(0.98);
+    }
+
+    /* Icono svg inline para la flecha */
+    .arrow-icon {
+      transition: transform 0.2s;
+    }
+
+    .btn-home:hover .arrow-icon {
+      transform: translateX(4px);
+    }
+
+    /* elemento decorativo de líneas */
+    .decor-lines {
+      position: absolute;
+      bottom: 20px;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      font-size: 0.75rem;
+      color: rgba(148, 163, 184, 0.3);
+      z-index: 1;
+      pointer-events: none;
+      letter-spacing: 2px;
+    }
+
+    /* responsive */
+    @media (max-width: 500px) {
+      .card {
+        padding: 1.8rem 1.2rem;
+      }
+      .error-code {
+        font-size: 5rem;
+      }
+      h1 {
+        font-size: 1.8rem;
+      }
+      .message {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="grupo-badge">✦ GRUPO 2 ✦</div>
+    <div class="error-code">404</div>
+    <h1>Error personalizado</h1>
+    <div class="message">
+      La página solicitada no existe.<br>
+      Puede que haya sido movida, eliminada o que nunca haya existido.
+    </div>
+    <a href="/" class="btn-home">
+      <span>Volver al inicio</span>
+      <svg class="arrow-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M5 12H19M19 12L13 6M19 12L13 18" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </a>
+  </div>
+  <div class="decor-lines">
+    ⚡ página no encontrada • error 404 • Grupo 2 ⚡
+  </div>
+</body>
+</html>

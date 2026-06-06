@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grupo 2 - SiteSimple | AWS S3</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', 'Inter', system-ui, -apple-system, 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Efecto de grid de fondo */
+    body::before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        linear-gradient(rgba(59, 130, 246, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(59, 130, 246, 0.05) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+    }
+
+    /* Círculos decorativos */
+    .circle-decoration {
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(96, 165, 250, 0.1) 0%, rgba(96, 165, 250, 0) 70%);
+      pointer-events: none;
+    }
+
+    .circle-1 {
+      width: 400px;
+      height: 400px;
+      top: -150px;
+      right: -100px;
+    }
+
+    .circle-2 {
+      width: 300px;
+      height: 300px;
+      bottom: -100px;
+      left: -100px;
+      background: radial-gradient(circle, rgba(168, 85, 247, 0.08) 0%, rgba(168, 85, 247, 0) 70%);
+    }
+
+    /* Tarjeta principal */
+    .hero-card {
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(16px);
+      border-radius: 2rem;
+      padding: 3rem 2.5rem;
+      max-width: 650px;
+      width: 90%;
+      text-align: center;
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      z-index: 2;
+      transition: transform 0.3s ease, border-color 0.3s ease;
+    }
+
+    .hero-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(59, 130, 246, 0.6);
+      box-shadow: 0 30px 55px -12px rgba(0, 0, 0, 0.6);
+    }
+
+    /* Logo / Insignia */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+      padding: 0.5rem 1.25rem;
+      border-radius: 60px;
+      margin-bottom: 2rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: white;
+      letter-spacing: 0.5px;
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    }
+
+    .badge svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    /* Título principal */
+    h1 {
+      font-size: 3rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #f1f5f9, #94a3b8, #cbd5e1);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.02em;
+    }
+
+    .highlight {
+      background: linear-gradient(120deg, #60a5fa, #a78bfa);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .subtitle {
+      font-size: 1rem;
+      color: #94a3b8;
+      margin-bottom: 2rem;
+      border-bottom: 1px dashed rgba(71, 85, 105, 0.5);
+      display: inline-block;
+      padding-bottom: 0.5rem;
+    }
+
+    /* Caja de información */
+    .info-box {
+      background: rgba(30, 41, 59, 0.6);
+      border-radius: 1.25rem;
+      padding: 1.5rem;
+      margin: 1.8rem 0;
+      border-left: 4px solid #3b82f6;
+      text-align: left;
+    }
+
+    .info-line {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+      color: #e2e8f0;
+      font-size: 1rem;
+    }
+
+    .info-line:last-child {
+      margin-bottom: 0;
+    }
+
+    .info-icon {
+      width: 28px;
+      height: 28px;
+      background: rgba(59, 130, 246, 0.2);
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #60a5fa;
+      font-weight: bold;
+    }
+
+    .info-text {
+      flex: 1;
+    }
+
+    .info-text strong {
+      color: #f1f5f9;
+      font-weight: 600;
+    }
+
+    /* Etiqueta tecnología */
+    .tech-stack {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.6rem;
+      margin: 1.8rem 0;
+    }
+
+    .tech-item {
+      background: rgba(51, 65, 85, 0.6);
+      padding: 0.3rem 0.9rem;
+      border-radius: 40px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: #cbd5e1;
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      backdrop-filter: blur(4px);
+    }
+
+    /* Botón footer */
+    .footer-note {
+      margin-top: 2rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(71, 85, 105, 0.4);
+      font-size: 0.9rem;
+      color: #64748b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .aws-badge {
+      background: rgba(255, 153, 0, 0.15);
+      padding: 0.2rem 0.7rem;
+      border-radius: 30px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #fbbf24;
+    }
+
+    /* Responsive */
+    @media (max-width: 550px) {
+      .hero-card {
+        padding: 2rem 1.2rem;
+        width: 95%;
+      }
+      h1 {
+        font-size: 2rem;
+      }
+      .info-line {
+        font-size: 0.85rem;
+        align-items: flex-start;
+      }
+      .info-icon {
+        width: 24px;
+        height: 24px;
+        font-size: 0.8rem;
+        flex-shrink: 0;
+      }
+      .badge {
+        font-size: 0.75rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="circle-decoration circle-1"></div>
+  <div class="circle-decoration circle-2"></div>
+
+  <div class="hero-card">
+    <div class="badge">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+        <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+        <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+      </svg>
+      <span>INFRAESTRUCTURA MODERNA</span>
+    </div>
+
+    <h1>Grupo 2 · <span class="highlight">SiteSimple</span></h1>
+    <div class="subtitle">🌐 Primera versión estática en AWS S3</div>
+
+    <div class="info-box">
+      <div class="info-line">
+        <div class="info-icon">✓</div>
+        <div class="info-text"><strong>Versión actual:</strong> 1.0.0 — Despliegue inicial</div>
+      </div>
+      <div class="info-line">
+        <div class="info-icon">📦</div>
+        <div class="info-text"><strong>Alojamiento:</strong> Amazon S3 (Bucket estático)</div>
+      </div>
+      <div class="info-line">
+        <div class="info-icon">⚙️</div>
+        <div class="info-text"><strong>Orquestación:</strong> Terraform · Infraestructura como código</div>
+      </div>
+    </div>
+
+    <div class="tech-stack">
+      <span class="tech-item">🏗️ Terraform</span>
+      <span class="tech-item">☁️ AWS S3</span>
+      <span class="tech-item">🖥️ HTML5/CSS3</span>
+      <span class="tech-item">📡 CloudFront (próximamente)</span>
+    </div>
+
+    <div class="footer-note">
+      <span>📘 Laboratorio final - Terraform + AWS</span>
+      <span class="aws-badge">🎯 SiteSimple v1</span>
+    </div>
+  </div>
+</body>
+</html>
